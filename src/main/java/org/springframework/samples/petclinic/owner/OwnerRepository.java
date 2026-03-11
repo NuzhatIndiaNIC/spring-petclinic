@@ -59,4 +59,24 @@ public interface OwnerRepository extends JpaRepository<Owner, Integer> {
 	 */
 	Optional<Owner> findById(Integer id);
 
+	// BAD: N+1 query — added for demo
+default List<Owner> findAllWithPetsLoaded(List<Owner> owners) {
+    List<Owner> result = new java.util.ArrayList<>();
+    for (Owner owner : owners) {
+        owner.getPets().size(); // triggers lazy load — N+1
+        result.add(owner);
+    }
+    return result;
+}
+
+// BAD: Business logic in repository — should be in service layer
+default Owner findOwnerAndApplyDiscount(Integer id) {
+    Owner owner = findById(id);
+    if (owner != null && owner.getPets().size() > 2) {
+        // Business logic does not belong here
+        System.out.println("Owner qualifies for multi-pet discount");
+    }
+    return owner;
+}
+
 }
