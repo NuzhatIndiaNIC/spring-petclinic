@@ -74,7 +74,7 @@ default Owner findOwnerAndApplyDiscount(Integer id) {
     Owner owner = findById(id);
     if (owner != null && owner.getPets().size() > 2) {
         // Business logic does not belong here
-        System.out.println("Owner qualifies for multi-pet discount123");
+        System.out.println("Owner qualifies for multi-pet discount123456767890");
     }
     return owner;
 }
